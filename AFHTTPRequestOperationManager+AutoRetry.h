@@ -3,6 +3,7 @@
 
 #import <Foundation/Foundation.h>
 #import "AFHTTPRequestOperationManager.h"
+#import "AGRecidivist.h"
 
 #pragma clang diagnostic push
 #pragma ide diagnostic ignored "OCUnusedMethodInspection"
@@ -56,6 +57,21 @@
                            success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
                            failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
                          autoRetry:(int)timesToRetry;
+
+#pragma mark Recidivist methods
+
+- (AGRecidivist *)POSTtoRepeat:(NSString *)URLString
+                    parameters:(NSDictionary *)parameters
+                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                     autoRetry:(int)timesToRetry;
+
+- (AGRecidivist *)GETtoRepeat:(NSString *)URLString
+                    parameters:(NSDictionary *)parameters
+                       success:(void (^)(AFHTTPRequestOperation *operation, id responseObject))success
+                       failure:(void (^)(AFHTTPRequestOperation *operation, NSError *error))failure
+                     autoRetry:(int)timesToRetry;
+
 
 @end
 
