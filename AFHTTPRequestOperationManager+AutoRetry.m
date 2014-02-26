@@ -169,10 +169,12 @@
   
   __block void (^retryBlock)(AFHTTPRequestOperation *, NSError *) = ^(AFHTTPRequestOperation *operation, NSError *error) {
     [r attempt];
-    if (r.curAttempt <= r.attempts) {
+    
+    NSURLRequest* newReq = r.urlProvider ? r.urlProvider(operation, error, r.curAttempt) : operation.request;
+    // if we should interrupt a sequence
+    if (newReq && r.curAttempt <= r.attempts) {
       NSLog(@"AutoRetry: Request failed: %@, retry begining...", error.localizedDescription);
       
-      NSURLRequest* newReq = r.urlProvider ? r.urlProvider(operation, error, r.curAttempt) : operation.request;
       NSTimeInterval delay = r.delayProvider ? r.delayProvider(operation, error, r.curAttempt) : 0.0;
       
       AFHTTPRequestOperation *retryOperation = [self HTTPRequestOperationWithRequest:newReq success:success failure:retryBlock];
